@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-const String original = "OG";
-const String updated = "UP";
+const String _originalKey = "OG";
+const String _updatedKey = "UP";
 
 class Resolver<T> {
   final void Function() reject;
@@ -36,7 +36,7 @@ class UseOptimistic<T> extends ChangeNotifier {
   Resolver<T> fn(T newValue,
       {required T Function(T currentState, T newValue) todo, required T Function(T currentState, T oldValue) undo}) {
     final String id = const Uuid().v4();
-    _pendingUpdates[id] = {original: newValue, updated: newValue};
+    _pendingUpdates[id] = {_originalKey: newValue, _updatedKey: newValue};
 
     _state = todo(_state, newValue);
     notifyListeners();
@@ -44,7 +44,7 @@ class UseOptimistic<T> extends ChangeNotifier {
     return Resolver(
       reject: () {
         if (_pendingUpdates.containsKey(id)) {
-          var originalValue = _pendingUpdates[id]?[original];
+          var originalValue = _pendingUpdates[id]?[_originalKey];
           if (originalValue != null) {
             _state = undo(_state, originalValue);
           }
@@ -58,12 +58,12 @@ class UseOptimistic<T> extends ChangeNotifier {
       },
       acceptAs: (T updatedValue) {
         if (_pendingUpdates.containsKey(id)) {
-          var originalValue = _pendingUpdates[id]?[original];
+          var originalValue = _pendingUpdates[id]?[_originalKey];
           if (originalValue != null) {
             _state = undo(_state, originalValue);
           }
           _state = todo(_state, updatedValue);
-          _pendingUpdates[id] = {original: updatedValue, updated: updatedValue};
+          _pendingUpdates[id] = {_originalKey: updatedValue, _updatedKey: updatedValue};
           notifyListeners();
         }
       },

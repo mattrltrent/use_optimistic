@@ -8,9 +8,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: OptimisticUI(),
+        appBar: AppBar(
+          title: const Text("useOptimistic hook example 🔥"),
+        ),
+        body: const OptimisticUI(),
       ),
     );
   }
@@ -52,31 +55,31 @@ class OptimisticUIState extends State<OptimisticUI> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Current value: ${useOptimistic.state}"),
+          Text("current value: ${useOptimistic.state}"),
           const SizedBox(height: 40),
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 2));
+              await Future.delayed(const Duration(seconds: 1));
               r.accept();
             },
-            child: const Text("add 1 (accept)"),
+            child: const Text("add 1 (async accept)"),
           ),
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 2));
+              await Future.delayed(const Duration(seconds: 1));
               r.reject();
             },
-            child: const Text("add 1 (reject)"),
+            child: const Text("add 1 (async reject)"),
           ),
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 2));
+              await Future.delayed(const Duration(seconds: 1));
               r.acceptAs(2);
             },
-            child: const Text("add 1 (accept as 2)"),
+            child: const Text("add 1 (async accept as 2)"),
           ),
           TextButton(
             onPressed: () {
