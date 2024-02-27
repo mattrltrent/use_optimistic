@@ -1,39 +1,82 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Flutter hook: `useOptimistic` 🪝
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+An easy-to-use hook to optimistically update generic state and then resolve it later asynchronously by `accept`, `acceptAs`, or `reject`-ing.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+----
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+### Documentation
 
-## Features
+- [Full example](https://pub.dev/packages/use_optimistic/example) of using this hook to manage integer state.
+- GitHub repo found [here](https://github.com/mattrltrent/use_optimistic).
+- Package found [here](https://pub.dev/packages/use_optimistic).
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Documentation is largely found in the package itself via doc-comments (*i.e. hover over package functions in your editor and it'll tell you what they do*). First, however, view the above [full example](https://pub.dev/packages/use_optimistic/example) to get started.
 
-## Getting started
+### Simple usage
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+<p align="center">
+  <img src="https://github.com/mattrltrent/use_optimistic/blob/main/assets/demo.png?raw=true" style="height: 600px;" alt="demo image" />
+</p>
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+**Initialize the hook:**
 
 ```dart
-const like = 'sample';
+  final UseOptimistic<int> useOptimistic = UseOptimistic<int>(initialState: 0)
 ```
 
-## Additional information
+**Ensure your widget listens to its state changes:**
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+@override
+void initState() {
+  super.initState();
+  useOptimistic.addListener(() => setState(() => debugPrint("state changed to: ${useOptimistic.state}")));
+}
+```
+
+**Ensure the hook will be disposed when your widget is:**
+
+```dart
+@override
+void dispose() {
+  super.dispose();
+  useOptimistic.dispose();
+}
+```
+
+**Update your state optimistically:**
+
+```dart
+TextButton(
+  onPressed: () async {
+
+    Resolver r = useOptimistic.fn(
+      1, // the [newValue] to be passed to functions below
+      todo: (currentState, newValue) => currentState + newValue,
+      undo: (currentState, oldValue) => currentState - oldValue,
+    );
+
+    // simulating an API call
+    await Future.delayed(const Duration(seconds: 1));
+
+    // three mutually exclusive ways to deal with result
+    r.acceptAs(2); // [undo] original function, then [todo] with new value
+    r.accept(); // accept the original optimistic update
+    r.reject(); // reject the original optimistic update and [undo] original function
+
+  },
+  child: const Text("optimistically add 1"),
+),
+```
+
+**Listen to the state:**
+
+```dart
+Text("current value: ${useOptimistic.state}"),
+```
+
+### Meta
+
+- The package is always open to [improvements](https://github.com/mattrltrent/use_optimistic/issues), [suggestions](mailto:me@matthewtrent.me), and [additions](https://github.com/mattrltrent/use_optimistic/pulls)!
+- I'll look through GitHub PRs and Issues as soon as I can.
+- Learn about [me](https://matthewtrent.me).

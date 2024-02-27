@@ -1,7 +1,9 @@
 name: use_optimistic
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: The use_optimistic package provides a hook for Flutter to allow for optimistic updates to state. Emulates React.js's useOptimistic hook.
+version: 1.0.0 
+homepage: https://matthewtrent.me/
+repository: https://github.com/mattrltrent/use_optimistic
+issue_tracker: https://github.com/mattrltrent/use_optimistic/issues
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
