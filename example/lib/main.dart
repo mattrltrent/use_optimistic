@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:use_optimistic/use_optimistic.dart'; // Ensure this is linked to your implementation
+import 'package:use_optimistic/use_optimistic.dart'; // import the package
 
 void main() => runApp(const MyApp());
 
