@@ -81,3 +81,5 @@ Text("current value: ${useOptimistic.state}"),
 
 - The package is always open to [improvements](https://github.com/mattrltrent/use_optimistic/issues), [suggestions](mailto:me@matthewtrent.me), and [additions](https://github.com/mattrltrent/use_optimistic/pulls)!
 - I'll look through GitHub PRs and Issues as soon as I can.
+
+![analytics](https://hidden-coast-90561-45544df95b1b.herokuapp.com/api/v1/analytics/?kind=package-use-optimistic)
