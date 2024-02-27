@@ -1,6 +1,6 @@
 name: use_optimistic
 description: An easy-to-use hook to optimistically update generic state and then resolve it later asynchronously by `accept`, `acceptAs`, or `reject`-ing.
-version: 1.0.0 
+version: 1.0.1
 homepage: https://matthewtrent.me/
 repository: https://github.com/mattrltrent/use_optimistic
 issue_tracker: https://github.com/mattrltrent/use_optimistic/issues
