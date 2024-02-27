@@ -1,6 +1,6 @@
 # Flutter hook: `useOptimistic` 🪝
 
-An easy-to-use hook to optimistically update generic state and then resolve it later asynchronously by `accept`, `acceptAs`, or `reject`-ing.
+An easy-to-use hook to optimistically update generic state and then resolve it later (async or sync) by `accept`, `acceptAs`, or `reject`-ing.
 
 ----
 
@@ -69,14 +69,15 @@ TextButton(
 ),
 ```
 
+You can call `useOptimistic.fn( ... )` multiple times with different `todo` and `undo` functions and it'll execute the proper `todo`/`undo` associated with `fn` at the moment you called it. This means you can call multiple *separate* `useOptimistic.fn( ... )`s safely together. It does *not mean* you can have a single `fn` like this (pseudo-code): `useOptimistic.fn( if x todo: () => {...} else todo: () => {...} )` that has conditionally rendered `todo`/`undo` functions.
+
 **Listen to the state:**
 
 ```dart
 Text("current value: ${useOptimistic.state}"),
 ```
 
-### Meta
+### Extra
 
 - The package is always open to [improvements](https://github.com/mattrltrent/use_optimistic/issues), [suggestions](mailto:me@matthewtrent.me), and [additions](https://github.com/mattrltrent/use_optimistic/pulls)!
 - I'll look through GitHub PRs and Issues as soon as I can.
-- Learn about [me](https://matthewtrent.me).

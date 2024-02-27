@@ -38,7 +38,8 @@ class OptimisticUIState extends State<OptimisticUI> {
     // also triggered by [clearQueue] and [reset] once
     //
     // THIS IS IMPORTANT, YOUR UI WILL NOT UPDATE REACTIVELY TO STATE CHANGE UNLESS YOU CALL THIS!!!!!
-    useOptimistic.addListener(() => setState(() => debugPrint("state changed to: ${useOptimistic.state}")));
+    useOptimistic.addListener(() =>
+        setState(() => debugPrint("state changed to: ${useOptimistic.state}")));
   }
 
   @override
@@ -53,9 +54,11 @@ class OptimisticUIState extends State<OptimisticUI> {
     return useOptimistic.fn(
       newValToFunctions, // the value to be fed to functions below
       todo: (currentState, newValue) =>
-          currentState + newValue, // the optimistic update that uses the [value] above as the [newValue]
+          currentState +
+          newValue, // the optimistic update that uses the [value] above as the [newValue]
       undo: (currentState, oldValue) =>
-          currentState - oldValue, // the undo function that uses the [value] above as the [oldValue]
+          currentState -
+          oldValue, // the undo function that uses the [value] above as the [oldValue]
     );
   }
 
@@ -71,7 +74,8 @@ class OptimisticUIState extends State<OptimisticUI> {
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 1)); // simulate a server response
+              await Future.delayed(
+                  const Duration(seconds: 1)); // simulate a server response
               // example: assume the server responds with an error, so we want to reject the optimistic update
               r.accept();
               // note: calling r.[someMethod] N times has no effect; it only considers the first call
@@ -84,15 +88,18 @@ class OptimisticUIState extends State<OptimisticUI> {
             onPressed: () async {
               final r = useOptimistic.fn(
                 5, // the value to be fed to functions below
-                todo: (currentState, newValue) => currentState ~/ newValue, // the optimistic update
+                todo: (currentState, newValue) =>
+                    currentState ~/ newValue, // the optimistic update
                 undo: (currentState, oldValue) =>
                     currentState *
                     oldValue, // the undo function (as shown, can technically not match the exact opposite of [todo])
               );
-              await Future.delayed(const Duration(seconds: 1)); // simulate a server response
+              await Future.delayed(
+                  const Duration(seconds: 1)); // simulate a server response
               r.reject();
             },
-            child: const Text("optimistically feed 5 into custom func (async reject)"),
+            child: const Text(
+                "optimistically feed 5 into custom func (async reject)"),
           ),
           TextButton(
             onPressed: () {
@@ -109,7 +116,8 @@ class OptimisticUIState extends State<OptimisticUI> {
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 5)); // simulate a server response
+              await Future.delayed(
+                  const Duration(seconds: 10)); // simulate a server response
               // example: assume the server responds with an error, so we want to reject the optimistic update
               r.reject();
             },
@@ -118,7 +126,8 @@ class OptimisticUIState extends State<OptimisticUI> {
           TextButton(
             onPressed: () async {
               final r = _addValue(1);
-              await Future.delayed(const Duration(seconds: 1)); // simulate a server response
+              await Future.delayed(
+                  const Duration(seconds: 1)); // simulate a server response
               // example: assume the server responds with 2, so we want to change our initial +1 to +2
               r.acceptAs(2);
             },

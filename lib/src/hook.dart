@@ -23,7 +23,8 @@ class Resolver<T> {
   /// it will revert the state to the original value and then update it to the new value
   final void Function(T newValue) acceptAs;
 
-  Resolver({required this.reject, required this.accept, required this.acceptAs});
+  Resolver(
+      {required this.reject, required this.accept, required this.acceptAs});
 }
 
 /// [UseOptimistic] class to handle state and the optimistic updates
@@ -74,7 +75,8 @@ class UseOptimistic<T> extends ChangeNotifier {
   ///
   /// returns a [Resolver] object that has the [accept], [reject], and [acceptAs] methods
   Resolver<T> fn(T newValue,
-      {required T Function(T currentState, T newValue) todo, required T Function(T currentState, T oldValue) undo}) {
+      {required T Function(T currentState, T newValue) todo,
+      required T Function(T currentState, T oldValue) undo}) {
     final String id = const Uuid().v4();
     _pendingUpdates[id] = {_originalKey: newValue, _updatedKey: newValue};
 
@@ -103,7 +105,10 @@ class UseOptimistic<T> extends ChangeNotifier {
             _state = undo(_state, originalValue);
           }
           _state = todo(_state, updatedValue);
-          _pendingUpdates[id] = {_originalKey: updatedValue, _updatedKey: updatedValue};
+          _pendingUpdates[id] = {
+            _originalKey: updatedValue,
+            _updatedKey: updatedValue
+          };
           notifyListeners();
         }
       },
